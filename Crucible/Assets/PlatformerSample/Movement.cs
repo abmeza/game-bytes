@@ -6,6 +6,7 @@ public class Movement : MonoBehaviour
     public int playerNumber;
     public int rollSpeed;
     public int maxRollSpeed;
+    public int airSpeedIncreaseLimit; //Limits how much faster the palyer can speed up in air
 
     private bool canJump;
     private bool respawnOverLap;
@@ -20,6 +21,7 @@ public class Movement : MonoBehaviour
         canJump = true;
         respawnOverLap = true;
         doubleJump = 0;
+        airSpeedIncreaseLimit = maxRollSpeed / 3;
     }
 
 
@@ -45,6 +47,7 @@ public class Movement : MonoBehaviour
         // Movement is allowed only when the player is touching the floor
         if (point.point.y < transform.position.y - 0.01f)
         {
+
             ///transform.position += new Vector3(MinigameInputHelper.GetHorizontalAxis(playerNumber) * 5.0f * Time.deltaTime ,0,0);
             if (MinigameInputHelper.GetHorizontalAxis(playerNumber) == 1)
             {
@@ -55,20 +58,18 @@ public class Movement : MonoBehaviour
                 body.AddForce(new Vector3(-1 * (rollSpeed), 0, 0));
             }
         }
-           ///transform.position += new Vector3(MinigameInputHelper.GetHorizontalAxis(playerNumber) * 5.0f * Time.deltaTime ,0,0);
+        if (body.velocity.x < airSpeedIncreaseLimit)
+        {
+            ///transform.position += new Vector3(MinigameInputHelper.GetHorizontalAxis(playerNumber) * 5.0f * Time.deltaTime ,0,0);
             if (MinigameInputHelper.GetHorizontalAxis(playerNumber) == 1)
             {
-                body.AddForce(new Vector3(rollSpeed/10, 0, 0));
+                body.AddForce(new Vector3(rollSpeed/2 , 0, 0));
             }
             else if (MinigameInputHelper.GetHorizontalAxis(playerNumber) == -1)
             {
-                body.AddForce(new Vector3(-1 * (rollSpeed/10), 0, 0));
+                body.AddForce(new Vector3(-1 * (rollSpeed/2), 0, 0));
             }
-            else
-            {
-                body.velocity.Normalize();
-            }
-
+        }
         
     }
 
