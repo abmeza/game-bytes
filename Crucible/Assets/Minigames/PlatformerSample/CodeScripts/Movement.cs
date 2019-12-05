@@ -33,7 +33,7 @@ public class Movement : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {     
         ContactPoint2D point = collision.GetContact(0);
-        if (point.point.y < transform.position.y)
+        if (point.point.y < transform.position.y- 0.2f)
         {
             canJump = true;
             doubleJump = 0;
@@ -92,7 +92,8 @@ public class Movement : MonoBehaviour
             if (MinigameInputHelper.IsButton1Down(playerNumber) == true)
             {
                 ///transform.position += new Vector3(0, MinigameInputHelper.GetVerticalAxis(playerNumber) * 3.0f, 0);
-                body.AddForce(new Vector3(0, 750, 0));
+                body.velocity = new Vector2(body.velocity.x, 10);
+                ///body.AddForce(new Vector3(0, 750, 0));
                 doubleJump += 1;
             }
         }
